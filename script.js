@@ -4,55 +4,108 @@ let firstNumber = "";
 let secondNumber = "";
 let operator = "";
 
+let changeText = function (text) {
+  calculatorText.innerHTML = `${text.firstNumber} ${text.operator} ${text.secondNumber}`;
+};
 // add event on click for every button
 const buttons = document.querySelectorAll(".btn");
 buttons.forEach((button) => {
   button.addEventListener("click", (e) => {
     if (isNumber(e.target.innerHTML)) {
-      setNumber(e.target.innerHTML);
+      expression.setNumber(e.target.innerHTML);
     }
 
     if (isOperator(e.target.innerHTML)) {
-      setOperator(e.target.innerHTML);
+      expression.setOperator(e.target.innerHTML);
     }
 
-    addToText(e.target.innerHTML);
-    changeText(text);
+    if (isEqual(e.target.innerHTML)) {
+      console.log(expression.calculate());
+      expression.setResult(expression.calculate());
+      changeText = function (text) {
+        calculatorText.innerHTML = `${text.result}`;
+      };
+      expression.clear();
+    }
+
+    if (isClear(e.target.innerHTML)) {
+      expression.clear();
+    }
+
+    changeText(expression);
+    console.log(expression);
+    changeText = function (text) {
+      calculatorText.innerHTML = `${text.firstNumber} ${text.operator} ${text.secondNumber}`;
+    };
   });
 });
 
-// check if the button is a number
+// check if the button is =
+
 function isNumber(number) {
   return !isNaN(number);
 }
 
-// check if the button is an operator
 function isOperator(operator) {
   return (
     operator === "+" || operator === "-" || operator === "*" || operator === "/"
   );
 }
 
-function setOperator(op) {
-  operator = op;
-
-  console.log(operator);
+function isEqual(button) {
+  return button === "=";
 }
 
-let setNumber = function (number) {
-  if (operator === "") {
-    firstNumber += number;
-  } else {
-    secondNumber += number;
+function isClear(button) {
+  return button === "C";
+}
+
+class Calculator {
+  constructor(firstNumber, secondNumber, operator, result) {
+    this.firstNumber = firstNumber;
+    this.secondNumber = secondNumber;
+    this.operator = operator;
+    this.result = result;
   }
 
-  console.log(firstNumber, secondNumber);
-};
+  setNumber(number) {
+    if (this.operator === "") {
+      this.firstNumber += number;
+    } else {
+      this.secondNumber += number;
+    }
+  }
 
-function changeText(text) {
-  calculatorText.innerHTML = text;
+  setOperator(operator) {
+    if (this.firstNumber === "") {
+      this.firstNumber = "0";
+    }
+
+    this.operator = operator;
+  }
+
+  clear() {
+    this.firstNumber = "";
+    this.secondNumber = "";
+    this.operator = "";
+  }
+
+  // set result to the result of the calculation
+  setResult(result) {
+    this.result = result;
+  }
+
+  calculate() {
+    if (this.operator === "+") {
+      return parseInt(this.firstNumber) + parseInt(this.secondNumber);
+    } else if (this.operator === "-") {
+      return parseInt(this.firstNumber) - parseInt(this.secondNumber);
+    } else if (this.operator === "*") {
+      return parseInt(this.firstNumber) * parseInt(this.secondNumber);
+    } else if (this.operator === "/") {
+      return parseInt(this.firstNumber) / parseInt(this.secondNumber);
+    }
+  }
 }
 
-function addToText(number) {
-  text += number;
-}
+let expression = new Calculator("", "", "", "");
