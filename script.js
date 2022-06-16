@@ -1,54 +1,102 @@
 const calculatorText = document.querySelector(".display__text");
-let text = "";
-let firstNumber = "";
-let secondNumber = "";
-let operator = "";
 
-let changeText = function (text) {
-  calculatorText.innerHTML = `${text.firstNumber} ${text.operator} ${text.secondNumber}`;
-};
-// add event on click for every button
-const buttons = document.querySelectorAll(".btn");
-buttons.forEach((button) => {
-  button.addEventListener("click", (e) => {
-    if (isNumber(e.target.innerHTML)) {
-      expression.setNumber(e.target.innerHTML);
+class Calculator {
+  constructor(firstNumber, secondNumber, operator, result) {
+    this.firstNumber = firstNumber;
+    this.secondNumber = secondNumber;
+    this.operator = operator;
+    this.result = result;
+  }
+
+  setFirstNumber(number) {
+    this.firstNumber += number;
+  }
+
+  setSecondNumber(number) {
+    this.secondNumber += number;
+  }
+
+  setOperator(operator) {
+    if (this.firstNumber === "") {
+      this.firstNumber = "0";
     }
 
-    if (isOperator(e.target.innerHTML)) {
-      expression.setOperator(e.target.innerHTML);
+    this.operator = operator;
+  }
+
+  setResult(result) {
+    this.result = result;
+  }
+
+  setNumbers(number) {
+    if (isNumber(number) || isDecimal(number)) {
+      if (this.operator === "") {
+        if (checkDecimal(this.firstNumber) || isNumber(number))
+          this.setFirstNumber(number);
+      } else {
+        if (checkDecimal(this.secondNumber) || isNumber(number))
+          this.setSecondNumber(number);
+      }
     }
+  }
 
-    if (isEqual(e.target.innerHTML)) {
-      console.log(expression.calculate());
-      expression.setResult(expression.calculate());
-      changeText = function (text) {
-        calculatorText.innerHTML = `${text.result}`;
-      };
-      expression.clear();
+  calculate() {
+    if (this.operator === "+") {
+      return parseFloat(this.firstNumber) + parseFloat(this.secondNumber);
+    } else if (this.operator === "-") {
+      return parseFloat(this.firstNumber) - parseFloat(this.secondNumber);
+    } else if (this.operator === "*") {
+      return parseFloat(this.firstNumber) * parseFloat(this.secondNumber);
+    } else if (this.operator === "/") {
+      return parseFloat(this.firstNumber) / parseFloat(this.secondNumber);
+    } else if (this.operator === "%") {
+      return parseFloat(this.firstNumber) % parseFloat(this.secondNumber);
     }
+  }
 
-    if (isClear(e.target.innerHTML)) {
-      expression.clear();
-    }
+  isResultSet() {
+    return this.result !== "";
+  }
 
-    changeText(expression);
-    console.log(expression);
-    changeText = function (text) {
-      calculatorText.innerHTML = `${text.firstNumber} ${text.operator} ${text.secondNumber}`;
-    };
-  });
-});
+  // check if input is set
+  isInputSet() {
+    return (
+      this.firstNumber !== "" &&
+      this.secondNumber !== "" &&
+      this.operator !== ""
+    );
+  }
 
-// check if the button is =
+  clear() {
+    this.firstNumber = "";
+    this.secondNumber = "";
+    this.operator = "";
+    this.result = "";
+  }
+}
+
+let expression = new Calculator("", "", "", "", "");
 
 function isNumber(number) {
   return !isNaN(number);
 }
 
+function isDecimal(number) {
+  return number === ".";
+}
+
+function checkDecimal(number) {
+  if (number.includes(".")) return false;
+  return true;
+}
+
 function isOperator(operator) {
   return (
-    operator === "+" || operator === "-" || operator === "*" || operator === "/"
+    operator === "+" ||
+    operator === "-" ||
+    operator === "*" ||
+    operator === "/" ||
+    operator === "%"
   );
 }
 
@@ -60,52 +108,30 @@ function isClear(button) {
   return button === "C";
 }
 
-class Calculator {
-  constructor(firstNumber, secondNumber, operator, result) {
-    this.firstNumber = firstNumber;
-    this.secondNumber = secondNumber;
-    this.operator = operator;
-    this.result = result;
+let changeText = function (text) {
+  if (expression.isResultSet()) {
+    console.log(text.result);
+    calculatorText.innerHTML = `${text.result}`;
+    expression.clear();
+  } else {
+    calculatorText.innerHTML = `${text.firstNumber} ${text.operator} ${text.secondNumber}`;
   }
+};
 
-  setNumber(number) {
-    if (this.operator === "") {
-      this.firstNumber += number;
-    } else {
-      this.secondNumber += number;
-    }
-  }
+const buttons = document.querySelectorAll(".btn");
+buttons.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    console.log(e.target.innerHTML);
+    expression.setNumbers(e.target.innerHTML);
 
-  setOperator(operator) {
-    if (this.firstNumber === "") {
-      this.firstNumber = "0";
-    }
+    if (isOperator(e.target.innerHTML))
+      expression.setOperator(e.target.innerHTML);
 
-    this.operator = operator;
-  }
+    if (isEqual(e.target.innerHTML))
+      expression.setResult(expression.calculate());
 
-  clear() {
-    this.firstNumber = "";
-    this.secondNumber = "";
-    this.operator = "";
-  }
+    if (isClear(e.target.innerHTML)) expression.clear();
 
-  // set result to the result of the calculation
-  setResult(result) {
-    this.result = result;
-  }
-
-  calculate() {
-    if (this.operator === "+") {
-      return parseInt(this.firstNumber) + parseInt(this.secondNumber);
-    } else if (this.operator === "-") {
-      return parseInt(this.firstNumber) - parseInt(this.secondNumber);
-    } else if (this.operator === "*") {
-      return parseInt(this.firstNumber) * parseInt(this.secondNumber);
-    } else if (this.operator === "/") {
-      return parseInt(this.firstNumber) / parseInt(this.secondNumber);
-    }
-  }
-}
-
-let expression = new Calculator("", "", "", "");
+    changeText(expression);
+  });
+});

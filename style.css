@@ -40,8 +40,7 @@ body {
   padding: 1.6rem;
   border-radius: 7px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
   font-size: 2.4rem;
   font-weight: bold;
   color: var(--text-color);
@@ -62,7 +61,7 @@ body {
   font-weight: 500;
   border-radius: 7px;
 
-  transition: all 0.3s ease-in-out;
+  transition: all 0.15s ease-in-out;
 }
 
 .btn--orange {
@@ -79,4 +78,8 @@ body {
   cursor: pointer;
   /* apply dark filter */
   filter: brightness(0.9);
+}
+
+.span--2 {
+  grid-column: span 2;
 }
