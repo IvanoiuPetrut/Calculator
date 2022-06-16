@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #85ffc7;
+  --secondary-color: #ff8552;
+  --bg-primary: #39393a;
+  --bg-dark: rgb(40, 40, 42);
+  --bg-light: #e6e6e6;
+  --text-color: #333;
+}
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+.calculator {
+  background-color: var(--bg-primary);
+  padding: 1.6rem;
+  border-radius: 7px;
+  width: 40rem;
+}
+
+.display {
+  background-color: var(--bg-light);
+  padding: 1.6rem;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 2.4rem;
+}
+
+.btn-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.3rem;
+}
+
+.btn {
+  background-color: var(--bg-light);
+  border-style: none;
+  height: 6.4rem;
+  font-size: 3.2rem;
+  font-weight: 500;
+  border-radius: 7px;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.btn--orange {
+  background-color: var(--secondary-color);
+  color: var(--bg-dark);
+}
+
+.btn--dark {
+  background-color: var(--bg-dark);
+  color: var(--bg-light);
+}
+
+.btn:hover {
+  cursor: pointer;
+  /* apply dark filter */
+  filter: brightness(0.9);
+}
