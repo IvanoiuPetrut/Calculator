@@ -1,4 +1,5 @@
-const calculatorText = document.querySelector(".display__text");
+const expressionText = document.querySelector(".display__expression");
+const resultText = document.querySelector(".display__result");
 
 class Calculator {
   constructor(firstNumber, secondNumber, operator, result) {
@@ -58,7 +59,6 @@ class Calculator {
     return this.result !== "";
   }
 
-  // check if input is set
   isInputSet() {
     return (
       this.firstNumber !== "" &&
@@ -67,10 +67,13 @@ class Calculator {
     );
   }
 
-  clear() {
+  clearInput() {
     this.firstNumber = "";
     this.secondNumber = "";
     this.operator = "";
+  }
+
+  clearResult() {
     this.result = "";
   }
 }
@@ -108,11 +111,19 @@ function isClear(button) {
   return button === "C";
 }
 
+function changeExpressionText(text) {
+  expressionText.innerHTML = `${text.firstNumber} ${text.operator} ${text.secondNumber} =`;
+}
+
+function changeResultText(text) {
+  resultText.innerHTML = text.result;
+}
+
 let changeText = function (text) {
   if (expression.isResultSet()) {
     console.log(text.result);
     calculatorText.innerHTML = `${text.result}`;
-    expression.clear();
+    expression.clearInput();
   } else {
     calculatorText.innerHTML = `${text.firstNumber} ${text.operator} ${text.secondNumber}`;
   }
@@ -136,7 +147,8 @@ buttons.forEach((button) => {
     if (isEqual(e.target.innerHTML))
       if (expression.isInputSet()) expression.setResult(expression.calculate());
 
-    if (isClear(e.target.innerHTML)) expression.clear();
+    if (isClear(e.target.innerHTML))
+      expression.clearInput() && expression.clearResult();
 
     changeText(expression);
     console.log(expression);

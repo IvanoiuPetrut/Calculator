@@ -8,7 +8,7 @@
   --primary-color: #85ffc7;
   --secondary-color: #ff8552;
   --bg-primary: #39393a;
-  --bg-dark: rgb(40, 40, 42);
+  --bg-dark: #2a2828;
   --bg-light: #e6e6e6;
   --text-color: #333;
 }
@@ -37,15 +37,25 @@ body {
 
 .display {
   background-color: var(--bg-light);
-  height: 6.4rem;
+  height: 9.6rem;
   padding: 1.6rem;
   border-radius: 7px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
   font-size: 2.4rem;
   font-weight: bold;
   color: var(--text-color);
   margin-bottom: 2.4rem;
+}
+
+.display__expression {
+  font-size: 1.6rem;
+}
+
+.display__result {
+  font-size: 3.6rem;
 }
 
 .btn-grid {
