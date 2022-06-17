@@ -31,10 +31,10 @@ class Calculator {
   setNumbers(number) {
     if (isNumber(number) || isDecimal(number)) {
       if (this.operator === "") {
-        if (checkDecimal(this.firstNumber) || isNumber(number))
+        if (hasOneDecimal(this.firstNumber) || isNumber(number))
           this.setFirstNumber(number);
       } else {
-        if (checkDecimal(this.secondNumber) || isNumber(number))
+        if (hasOneDecimal(this.secondNumber) || isNumber(number))
           this.setSecondNumber(number);
       }
     }
@@ -85,7 +85,7 @@ function isDecimal(number) {
   return number === ".";
 }
 
-function checkDecimal(number) {
+function hasOneDecimal(number) {
   if (number.includes(".")) return false;
   return true;
 }
@@ -121,17 +121,24 @@ let changeText = function (text) {
 const buttons = document.querySelectorAll(".btn");
 buttons.forEach((button) => {
   button.addEventListener("click", (e) => {
-    console.log(e.target.innerHTML);
     expression.setNumbers(e.target.innerHTML);
+
+    if (isOperator(e.target.innerHTML)) {
+      if (expression.isInputSet()) {
+        expression.calculate();
+        console.log(expression);
+      }
+    }
 
     if (isOperator(e.target.innerHTML))
       expression.setOperator(e.target.innerHTML);
 
     if (isEqual(e.target.innerHTML))
-      expression.setResult(expression.calculate());
+      if (expression.isInputSet()) expression.setResult(expression.calculate());
 
     if (isClear(e.target.innerHTML)) expression.clear();
 
     changeText(expression);
+    console.log(expression);
   });
 });

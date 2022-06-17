@@ -37,6 +37,7 @@ body {
 
 .display {
   background-color: var(--bg-light);
+  height: 6.4rem;
   padding: 1.6rem;
   border-radius: 7px;
   display: flex;
