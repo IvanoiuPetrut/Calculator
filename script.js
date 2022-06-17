@@ -55,16 +55,20 @@ class Calculator {
     }
   }
 
-  isResultSet() {
-    return this.result !== "";
-  }
-
   isInputSet() {
     return (
       this.firstNumber !== "" &&
       this.secondNumber !== "" &&
       this.operator !== ""
     );
+  }
+
+  isOperatorSet() {
+    return this.operator !== "";
+  }
+
+  isResultSet() {
+    return this.result !== "";
   }
 
   clearInput() {
@@ -119,38 +123,35 @@ function changeResultText(text) {
   resultText.innerHTML = text.result;
 }
 
-let changeText = function (text) {
-  if (expression.isResultSet()) {
-    console.log(text.result);
-    calculatorText.innerHTML = `${text.result}`;
-    expression.clearInput();
-  } else {
-    calculatorText.innerHTML = `${text.firstNumber} ${text.operator} ${text.secondNumber}`;
-  }
-};
-
 const buttons = document.querySelectorAll(".btn");
 buttons.forEach((button) => {
   button.addEventListener("click", (e) => {
     expression.setNumbers(e.target.innerHTML);
 
     if (isOperator(e.target.innerHTML)) {
+      expression.setOperator(e.target.innerHTML);
       if (expression.isInputSet()) {
-        expression.calculate();
-        console.log(expression);
+        expression.setResult(expression.calculate());
+        changeResultText(expression);
+        expression.clearInput();
+        expression.setFirstNumber(expression.result);
+        expression.clearResult();
       }
     }
 
-    if (isOperator(e.target.innerHTML))
-      expression.setOperator(e.target.innerHTML);
-
     if (isEqual(e.target.innerHTML))
-      if (expression.isInputSet()) expression.setResult(expression.calculate());
+      if (expression.isInputSet()) {
+        expression.setResult(expression.calculate());
+        changeResultText(expression);
+        expression.clearInput();
+        expression.setFirstNumber(expression.result);
+        expression.clearResult();
+      }
 
     if (isClear(e.target.innerHTML))
       expression.clearInput() && expression.clearResult();
 
-    changeText(expression);
+    changeExpressionText(expression);
     console.log(expression);
   });
 });
