@@ -5,12 +5,12 @@
 }
 
 :root {
-  --primary-color: #85ffc7;
-  --secondary-color: #ff8552;
-  --bg-primary: #39393a;
+  --primary-color: #6a6b88;
+  --secondary-color: #4d5a71;
+  --bg-primary: #1d293a;
   --bg-dark: #2a2828;
-  --bg-light: #e6e6e6;
-  --text-color: #333;
+  --bg-light: #354357;
+  --text-color: #d3dbe0;
 }
 
 html {
@@ -22,16 +22,14 @@ html {
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-size: 1.6rem;
   line-height: 1.5;
   color: var(--text-color);
+  background-color: var(--bg-primary);
 }
 
 .calculator {
-  background-color: var(--bg-primary);
-  padding: 1.6rem;
-  border-radius: 7px;
   width: 40rem;
 }
 
@@ -61,28 +59,26 @@ body {
 .btn-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.3rem;
+  gap: 1.2rem;
 }
 
 .btn {
+  color: var(--text-color);
   background-color: var(--bg-light);
   border-style: none;
-  height: 6.4rem;
+  height: 9.1rem;
   font-size: 3.2rem;
-  font-weight: 500;
-  border-radius: 7px;
-
+  font-weight: 700;
   transition: all 0.15s ease-in-out;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 }
 
-.btn--orange {
+.btn--primary {
   background-color: var(--secondary-color);
-  color: var(--bg-dark);
 }
 
 .btn--dark {
-  background-color: var(--bg-dark);
-  color: var(--bg-light);
+  background-color: var(--primary-color);
 }
 
 .btn:hover {
